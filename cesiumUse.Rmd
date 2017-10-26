@@ -16,13 +16,19 @@ library(lubridate)
 cs <- read.csv("cesium.csv") %>%
   mutate(Date = mdy(Date),
          No = as.factor(ifelse(Mass > 400, 1, 2)),
-         CsMass = ifelse(Mass > 400, Mass - 406.6, Mass - 393.3),
+         CsMass = ifelse(Mass > 400, Mass - 406.8, Mass - 393.3),
          et = ifelse(Mass > 400, Date - ymd("2016-07-14"), Date - ymd("2017-03-10")))
 ```
 
 ```{r}
 cs.lm <- lm(CsMass ~ et, data = cs)
 cs.lm
+use <- abs(coef(cs.lm)["et"])
+use5 <- 5 / use 
+```
+
+Average use rate is `r round(use, 2)` g per day. Thats `r round(use5)` days per charge.
+```{r}
 ggplot(cs, aes(et, CsMass, color = No)) +
   geom_smooth(method = "lm", fullrange = TRUE) +
   geom_point()  
