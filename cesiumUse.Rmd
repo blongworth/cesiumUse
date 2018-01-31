@@ -1,6 +1,8 @@
 ---
 title: "Cesium Use plots"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 Plot and predict Cesium use based on resevoir mass.
@@ -8,6 +10,8 @@ Plot and predict Cesium use based on resevoir mass.
 * TODO: add data for CFAMS
 * TODO: calculate days since new Cs
 * TODO: calculate res mass from initial mass
+* TODO: calculate use per target
+
 
 ```{r}
 library(tidyverse)
