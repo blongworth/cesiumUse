@@ -16,12 +16,20 @@ Plot and predict Cesium use based on resevoir mass.
 ```{r}
 library(tidyverse)
 library(lubridate)
+```
 
+```{r}
 cs <- read.csv("cesium.csv") %>%
   mutate(Date = mdy(Date),
-         No = as.factor(ifelse(Mass > 400, 1, 2)),
+         No = as.factor(
+           ifelse(Mass > 400, 1, 
+                  ifelse(Date > ymd("2018-02-11"), 3, 
+                         2))),
          CsMass = ifelse(Mass > 400, Mass - 406.8, Mass - 393.3),
-         et = ifelse(Mass > 400, Date - ymd("2016-07-14"), Date - ymd("2017-03-10")))
+         et = ifelse(No == 1, Date - ymd("2016-07-14"), 
+                     ifelse(No == 2, Date - ymd("2017-03-10"),
+                       Date - ymd("2018-02-12")))
+         )
 ```
 
 ```{r}
