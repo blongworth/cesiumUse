@@ -16,6 +16,7 @@ Plot and predict Cesium use based on resevoir mass.
 ```{r}
 library(tidyverse)
 library(lubridate)
+library(amstools)
 ```
 
 ```{r}
@@ -26,10 +27,13 @@ cs <- read.csv("cesium.csv") %>%
                   ifelse(Date > ymd("2018-02-11"), 3, 
                          2))),
          CsMass = ifelse(Mass > 400, Mass - 406.8, Mass - 393.3),
-         et = ifelse(No == 1, Date - ymd("2016-07-14"), 
-                     ifelse(No == 2, Date - ymd("2017-03-10"),
-                       Date - ymd("2018-02-12")))
-         )
+         startdate = recode(No,
+                            `1` = ymd("2016-07-14"), 
+                            `2` = ymd("2017-03-10"),
+                            `3` = ymd("2018-02-12")),
+         et = Date - startdate)
+
+         cs$runs = mapply(numRun, cs$startdate, cs$Date, "USAMS")[1,]
 ```
 
 ```{r}
@@ -44,4 +48,11 @@ Average use rate is `r round(use, 2)` g per day. Thats `r round(use5)` days per 
 ggplot(cs, aes(et, CsMass, color = No)) +
   geom_smooth(method = "lm", fullrange = TRUE) +
   geom_point()  
+ggplot(cs, aes(runs, CsMass, color = No)) +
+  geom_smooth(method = "lm", fullrange = TRUE) +
+  geom_point()  
 ```
+```{r}
+
+```
+
