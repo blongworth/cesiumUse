@@ -47,10 +47,13 @@ Average use rate is `r round(use, 2)` g per day. Thats `r round(use5)` days per 
 ```{r}
 ggplot(cs, aes(et, CsMass, color = No)) +
   geom_smooth(method = "lm", fullrange = TRUE) +
-  geom_point()  
+  geom_point() +
+  ylim(0,5) +
+  labs(x = "Days", y = "Cesium mass (g)")
 ggplot(cs, aes(runs, CsMass, color = No)) +
   geom_smooth(method = "lm", fullrange = TRUE) +
-  geom_point()  
+  geom_point() + ylim(0,5) +
+  labs(x = "Targets run", y = "Cesium mass (g)")
 ```
 ```{r}
 
