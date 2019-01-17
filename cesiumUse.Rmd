@@ -24,7 +24,8 @@ cs <- read.csv("cesium.csv") %>%
   mutate(Date = mdy(Date),
          No = as.factor(
            ifelse(Mass > 400, 1, 
-                  ifelse(Date > ymd("2018-02-11"), 3, 
+                  ifelse(Date > ymd("2018-02-11"), 
+			 ifelse(Date > ymd("2019-01-16"), 4, 3), 
                          2))),
          CsMass = ifelse(Mass > 400, Mass - 406.8, Mass - 393.3),
          startdate = recode(No,
