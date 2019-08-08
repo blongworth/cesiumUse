@@ -5,6 +5,10 @@ output:
     df_print: paged
 ---
 
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
 Plot and predict Cesium use based on reservoir mass.
 
 * TODO: add data for CFAMS
