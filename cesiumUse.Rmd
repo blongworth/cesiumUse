@@ -21,6 +21,9 @@ Plot and predict Cesium use based on reservoir mass.
 library(tidyverse)
 library(lubridate)
 library(amstools)
+
+# set plotting theme
+theme_set(theme_light())
 ```
 
 ```{r}
@@ -50,18 +53,20 @@ use5 <- 5 / use
 ```
 
 Average use rate is `r round(use, 2)` g per day. Thats `r round(use5)` days per charge.
+
 ```{r}
 ggplot(cs, aes(et, CsMass, color = No)) +
   geom_smooth(method = "lm", fullrange = TRUE) +
   geom_point() +
   ylim(0,5) +
-  labs(x = "Days", y = "Cesium mass (g)")
+  scale_colour_brewer(type = "div", palette = "Set2") +
+  labs(title = "USAMS Cesium use over time",
+       x = "Days", y = "Cesium mass (g)")
+
 ggplot(cs, aes(runs, CsMass, color = No)) +
   geom_smooth(method = "lm", fullrange = TRUE) +
-  geom_point() + ylim(0,5) +
-  labs(x = "Targets run", y = "Cesium mass (g)")
+  geom_point(size = 3) + ylim(0,5) +
+  scale_colour_brewer(type = "div", palette = "Set2") +
+  labs(title = "USAMS Cesium use per target",
+       x = "Targets run", y = "Cesium mass (g)")
 ```
-```{r}
-
-```
-
