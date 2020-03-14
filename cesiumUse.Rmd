@@ -27,22 +27,27 @@ theme_set(theme_light())
 ```
 
 ```{r}
-cs <- read.csv("cesium.csv") %>%
-  mutate(Date = mdy(Date),
-         No = as.factor(
-           ifelse(Mass > 400, 1, 
-                  ifelse(Date > ymd("2018-02-11"), 
-			 ifelse(Date > ymd("2019-01-16"), 4, 3), 
-                         2))),
-         CsMass = ifelse(Mass > 400, Mass - 406.8, Mass - 393.3),
-         startdate = recode(No,
-                            `1` = ymd("2016-07-14"), 
-                            `2` = ymd("2017-03-10"),
-                            `3` = ymd("2018-02-12"),
-                            `4` = ymd("2019-01-17")),
-         et = Date - startdate)
+cs <- read_csv("cesium.csv") %>%
+  mutate(Date = mdy(Date))
 
-         cs$runs = mapply(numRun, cs$startdate, cs$Date, "USAMS")[1,]
+runnum <- 0
+for (row in 1:nrow(cs)) {
+        if (cs[row,"NewCs"] == TRUE) {
+                runnum <- runnum + 1
+                sd <- cs[row, "Date"]
+                initmass <- cs[row, "Mass"]
+        }
+        cs[row, "No"] <- runnum
+        cs[row, "startdate"] <- sd
+        cs[row, "CsMass"] <- initmass + 5 - cs[row, "Mass"]
+}
+
+cs <- cs %>%
+  mutate(CsMass = ifelse(Mass > 400, Mass - 406.8, Mass - 393.3),
+         et = Date - startdate,
+         No = as.factor(No))
+
+cs$runs = mapply(numRun, cs$startdate, cs$Date, "USAMS")[1,]
 ```
 
 ```{r}
