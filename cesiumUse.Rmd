@@ -15,6 +15,7 @@ Plot and predict Cesium use based on reservoir mass.
 * TODO: calculate days since new Cs
 * TODO: calculate res mass from initial mass
 * TODO: calculate use per target
+* TODO: Refactor
 
 
 ```{r}
