@@ -40,12 +40,11 @@ for (row in 1:nrow(cs)) {
         }
         cs[row, "No"] <- runnum
         cs[row, "startdate"] <- sd
-        cs[row, "CsMass"] <- initmass + 5 - cs[row, "Mass"]
+        cs[row, "CsMass"] <- 5 - (initmass  - cs[row, "Mass"])
 }
 
 cs <- cs %>%
-  mutate(CsMass = ifelse(Mass > 400, Mass - 406.8, Mass - 393.3),
-         et = Date - startdate,
+  mutate(et = Date - startdate,
          No = as.factor(No))
 
 cs$runs = mapply(numRun, cs$startdate, cs$Date, "USAMS")[1,]
