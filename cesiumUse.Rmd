@@ -44,7 +44,7 @@ for (row in 1:nrow(cs)) {
 }
 
 cs <- cs %>%
-  mutate(CsMass = ifelse(Mass > 400, Mass - 406.8, Mass - 393.3),
+  mutate(CsMass = ifelse(Mass > 400, Mass - 406.8, Mass - 393.3), # subtract mass of reservoir
          et = Date - startdate,
          No = as.factor(No))
 
@@ -58,7 +58,7 @@ use <- abs(coef(cs.lm)["et"])
 use5 <- 5 / use 
 ```
 
-Average use rate is `r round(use, 2)` g per day. Thats `r round(use5)` days per charge.
+Average use rate is `r round(use, 2)` g per day. That's `r round(use5)` days per charge.
 
 ```{r}
 ggplot(cs, aes(et, CsMass, color = No)) +
@@ -69,10 +69,10 @@ ggplot(cs, aes(et, CsMass, color = No)) +
   labs(title = "USAMS Cesium use over time",
        x = "Days", y = "Cesium mass (g)")
 
-ggplot(cs, aes(runs, CsMass, color = No)) +
-  geom_smooth(method = "lm", fullrange = TRUE) +
-  geom_point(size = 3) + ylim(0,5) +
-  scale_colour_brewer(type = "div", palette = "Set2") +
-  labs(title = "USAMS Cesium use per target",
-       x = "Targets run", y = "Cesium mass (g)")
+ ggplot(cs, aes(runs, CsMass, color = No)) +
+   geom_smooth(method = "lm", fullrange = TRUE) +
+   geom_point(size = 3) + ylim(0,5) +
+   scale_colour_brewer(type = "div", palette = "Set2") +
+   labs(title = "USAMS Cesium use per target",
+        x = "Targets run", y = "Cesium mass (g)")
 ```
