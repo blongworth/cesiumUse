@@ -12,9 +12,6 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 Plot and predict Cesium use based on reservoir mass.
 
-* TODO: calculate use per target
-* TODO: Refactor and parameterize for use with multiple systems
-
 
 ```{r}
 library(tidyverse)
@@ -26,7 +23,7 @@ theme_set(theme_light())
 ```
 
 ```{r}
-cs <- read_csv("cesium.csv") %>%
+cs <- read_csv("CFAMScesium.csv") %>%
   mutate(Date = mdy(Date))
 
 runnum <- 0
@@ -45,7 +42,7 @@ cs <- cs %>%
   mutate(et = Date - startdate,
          No = as.factor(No))
 
-cs$runs = mapply(numRun, cs$startdate, cs$Date, "USAMS")[1,]
+cs$runs = mapply(numRun, cs$startdate, cs$Date, "CFAMS")[1,]
 ```
 
 ```{r}
@@ -63,13 +60,13 @@ ggplot(cs, aes(et, CsMass, color = No)) +
   geom_point() +
   ylim(0,5) +
   scale_colour_brewer(type = "div", palette = "Set2") +
-  labs(title = "USAMS Cesium use over time",
+  labs(title = "CFAMS Cesium use over time",
        x = "Days", y = "Cesium mass (g)")
 
  ggplot(cs, aes(runs, CsMass, color = No)) +
    geom_smooth(method = "lm", fullrange = TRUE) +
    geom_point(size = 3) + ylim(0,5) +
    scale_colour_brewer(type = "div", palette = "Set2") +
-   labs(title = "USAMS Cesium use per target",
+   labs(title = "CFAMS Cesium use per target",
         x = "Targets run", y = "Cesium mass (g)")
 ```
